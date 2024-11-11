@@ -20,6 +20,7 @@ whether graphical or on command line (or network, or whatever).
 ## Reflection loading
 
 Instead of hard-coding the implementation of the views, in `LaunchApp` do as follows:
+
 * Via reflection, load the classes that implement `DrawNumberView` by their name
   * Note: you need the *qualified* name
 * Find the 0-ary constructor
