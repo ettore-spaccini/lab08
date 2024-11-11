@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="it.unibo.deathnote.TestDeathNote" tests="5" skipped="0" failures="0" errors="0" timestamp="2024-11-11T15:36:47" hostname="ETTORE_SPACCINI" time="0.179">
+  <properties/>
+  <testcase name="testDeathCause4()" classname="it.unibo.deathnote.TestDeathNote" time="0.163"/>
+  <testcase name="testDeathNote()" classname="it.unibo.deathnote.TestDeathNote" time="0.002"/>
+  <testcase name="noRulesEmptyOrNull()" classname="it.unibo.deathnote.TestDeathNote" time="0.002"/>
+  <testcase name="testRuleNumberEqualZero()" classname="it.unibo.deathnote.TestDeathNote" time="0.002"/>
+  <testcase name="testRuleNumberNegative()" classname="it.unibo.deathnote.TestDeathNote" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

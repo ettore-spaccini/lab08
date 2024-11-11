@@ -45,7 +45,7 @@ public interface DeathNote {
         """,
         """
         The human who becomes the owner of the Death Note can, in exchange of half his/her
-        remaining life, get the eyeballs of the god of death which will enable him/her to see
+        remaining life, get the eyeballs(pupille) of the god of death which will enable him/her to see
         a human's name and remaining life span when looking through them.
         """,
         """
