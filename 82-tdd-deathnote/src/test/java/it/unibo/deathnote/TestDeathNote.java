@@ -7,7 +7,6 @@ import static java.lang.Thread.*;
 import it.unibo.deathnote.api.DeathNote;
 import it.unibo.deathnote.impl.DeathNoteImplementation;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Assertions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,6 +17,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TestDeathNote {
 
+    private static final int NUMBER_OF_CASE = 3; 
+    private static final int CASE_ZERO = 0; 
+    private static final int CASE_NEGATIVE = -1; 
+    private static final int CASE_OUT_OF_BOUND = DeathNote.RULES.size()+1; 
     private static final String MARIO_ROSSI = "Mario Rossi"; 
     private static final String LUCA_BIANCHI = "Luca Bianchi"; 
 
@@ -25,23 +28,21 @@ class TestDeathNote {
 
     @Test
     void testRuleNumberEqualZero() {
-        try {
-            deathNote.getRule(0); 
-            Assertions.fail("Indices cannot be equal to 0, but should have thrown an exception");
-        } catch (IllegalArgumentException e) {
-            assertNotNull(e.getMessage());
-            assertFalse(e.getMessage().isBlank());
-        }
-    }
-
-    @Test
-    void testRuleNumberNegative() {
-        try {
-            deathNote.getRule(-100); 
-            Assertions.fail("Indices cannot be negative, but should have thrown an exception");
-        } catch (IllegalArgumentException e) {
-            assertNotNull(e.getMessage());
-            assertFalse(e.getMessage().isBlank());
+        for (int i = 0; i < NUMBER_OF_CASE; i++) {
+            int testCase;       
+            switch (i) {
+                case 0 -> testCase = CASE_ZERO;
+                case 1 -> testCase = CASE_NEGATIVE;
+                case 2 -> testCase = CASE_OUT_OF_BOUND;
+            default -> throw new IllegalStateException("Unexpected value: " + i);
+            }
+            try {
+                deathNote.getRule(testCase); 
+                Assertions.fail("Indices cannot be equal to 0, but should have thrown an exception");
+            } catch (IllegalArgumentException e) {
+                assertNotNull(e.getMessage());
+                assertFalse(e.getMessage().isBlank());
+            }
         }
     }
 
@@ -88,6 +89,7 @@ class TestDeathNote {
         assertNotEquals("Cancer", deathNote.getDeathCause(LUCA_BIANCHI));
     }
 
+    @Test
     void testDeathCause5() {
         try {
             deathNote.writeDetails("Details of death");

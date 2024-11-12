@@ -16,7 +16,7 @@ public class DeathNoteImplementation implements DeathNote{
     @Override
     public String getRule(int ruleNumber) {
         if (ruleNumber <= LIMIT || ruleNumber >= RULES.size()) {
-            throw new IllegalArgumentException("Indices cannot be negative or equal to 0"); 
+            throw new IllegalArgumentException("Indices cannot be negative or equal to 0 or larger than the size of rules"); 
         }
         return RULES.get(ruleNumber-1); 
     }
@@ -29,7 +29,7 @@ public class DeathNoteImplementation implements DeathNote{
 
     @Override
     public boolean writeDeathCause(String cause) {
-        if (cause == null || deathNote.isEmpty()) {
+        if (Objects.isNull(cause) || deathNote.isEmpty()) {
             throw new IllegalStateException("Exeption: cause is null or thre are no names in the deathnote"); 
         }
         if ((System.currentTimeMillis() - deathNote.getLast().getTimeWritingName()) <= TIME_TO_WRITE_CAUSE) {
@@ -41,7 +41,7 @@ public class DeathNoteImplementation implements DeathNote{
 
     @Override
     public boolean writeDetails(String details) {
-        if (details == null || deathNote.isEmpty()) {
+        if (Objects.isNull(details) || deathNote.isEmpty()) {
             throw new IllegalStateException("Exeption: details is null or thre are no names in the deathnote"); 
         }
         if ((System.currentTimeMillis() - deathNote.getLast().getTimeWritingName()) <= TIME_TO_WRITE_DETAILS) {
@@ -54,9 +54,6 @@ public class DeathNoteImplementation implements DeathNote{
     @Override
     public String getDeathCause(String name) {
         HumanDeath humanSearched = isHumanPresent(name); 
-        if (humanSearched == null) {
-            throw new IllegalArgumentException(name + " is not present in the deathnote"); 
-        }
         if (humanSearched.getDeathCause() == null) {
             return DEFAULT_DEATH; 
         }
@@ -65,11 +62,8 @@ public class DeathNoteImplementation implements DeathNote{
 
     @Override
     public String getDeathDetails(String name) {
-        HumanDeath humanSearched = isHumanPresent(name); 
-        if (humanSearched == null) {
-            throw new IllegalArgumentException(name + " is not present in the deathnote"); 
-        }
-        if (humanSearched.getDeathDetails() == null) {
+        HumanDeath humanSearched = isHumanPresent(name);
+        if (Objects.isNull(humanSearched.getDeathDetails())) {
             return ""; 
         }
         return humanSearched.getDeathDetails();
@@ -77,21 +71,22 @@ public class DeathNoteImplementation implements DeathNote{
 
     @Override
     public boolean isNameWritten(String name) {
-        HumanDeath humanSearched = isHumanPresent(name);
-        return humanSearched == null ? false : true; 
+        try {
+            HumanDeath humanSearched = isHumanPresent(name);
+        } catch (IllegalArgumentException e) {
+            return false; 
+        } 
+        return true;  
     }
 
     private HumanDeath isHumanPresent(final String name) {
         Objects.requireNonNull(name, "It is not possible to pass null"); 
-        HumanDeath humanSearched = null; 
-        var it = deathNote.iterator(); 
-        while (it.hasNext() && humanSearched == null) {
-            var current = it.next(); 
-            if (current.getName().equals(name)) {
-                humanSearched = current; 
+        for (HumanDeath human: this.deathNote) {
+            if (human.getName().equals(name)) {
+                return human; 
             }
         }
-        return humanSearched; 
+        throw new IllegalArgumentException(name + " is not present in the deathnote"); 
     }
 
 }
